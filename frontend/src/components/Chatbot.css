@@ -1,0 +1,50 @@
+.chat-history {
+  margin-top: 20px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.15); /* Slightly brighter for better contrast */
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  scrollbar-width: thin;
+  scrollbar-color: #888 #333;
+}
+
+/* Customize scrollbar */
+.chat-history::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+.chat-history::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.chat-entry {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: background 0.3s ease-in-out;
+}
+
+.chat-entry:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.chat-entry p {
+  margin: 6px 0;
+  color: #f1f1f1; /* Slightly lighter text for readability */
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Make questions stand out */
+.chat-entry p strong {
+  color: #ffd700; /* Gold for highlighting */
+  font-weight: bold;
+}
