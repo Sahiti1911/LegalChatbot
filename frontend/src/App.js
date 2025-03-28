@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Chatbot from "./components/Chatbot";
 import CaseLawSearch from "./components/CaseLawSearch";
 import Dashboard from "./components/Dashboard";
-import "./App.css";
+
 
 const App = () => {
   return (
