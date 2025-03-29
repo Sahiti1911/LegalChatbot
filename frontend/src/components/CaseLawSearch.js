@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaBookmark, FaRegBookmark } from "react-icons/fa";
 
 const CaseLawSearch = () => {
   const [query, setQuery] = useState("");
   const [cases, setCases] = useState([]);
+  const [bookmarks, setBookmarks] = useState(
+    JSON.parse(localStorage.getItem("bookmarkedCases")) || []
+  );
 
   const handleSearch = async () => {
     if (!query) return;
@@ -13,13 +16,22 @@ const CaseLawSearch = () => {
       const data = await response.json();
       setCases(data);
 
-      // Save query & response in local storage
+      // Save search query & response in local storage
       const caseHistory = JSON.parse(localStorage.getItem("caseHistory")) || [];
       caseHistory.push({ query, response: data });
       localStorage.setItem("caseHistory", JSON.stringify(caseHistory));
     } catch (error) {
       console.error("Error fetching case laws:", error);
     }
+  };
+
+  // Function to bookmark a case
+  const handleBookmark = (caseItem) => {
+    if (bookmarks.some((b) => b.id === caseItem.id)) return; // Prevent duplicate bookmarks
+
+    const updatedBookmarks = [...bookmarks, caseItem];
+    setBookmarks(updatedBookmarks);
+    localStorage.setItem("bookmarkedCases", JSON.stringify(updatedBookmarks));
   };
 
   return (
@@ -51,11 +63,24 @@ const CaseLawSearch = () => {
         {/* Case Law Results */}
         <div className="mt-6 max-h-96 overflow-y-auto space-y-4">
           {cases.length > 0 ? (
-            cases.map((caseItem, index) => (
+            cases.map((caseItem) => (
               <div key={caseItem.id} className="p-4 bg-white/20 rounded-lg shadow">
-                <h3 className="text-lg font-bold text-blue-300">{caseItem.title} ({caseItem.year})</h3>
+                <h3 className="text-lg font-bold text-blue-300">
+                  {caseItem.title} ({caseItem.year})
+                </h3>
                 <p className="text-sm text-gray-300"><strong>Court:</strong> {caseItem.court}</p>
                 <p className="text-sm mt-2 text-gray-200">{caseItem.summary}</p>
+                <button
+  onClick={() => handleBookmark(caseItem)}
+  className="text-yellow-400 hover:text-yellow-500 transition"
+>
+  {bookmarks.some((b) => b.id === caseItem.id) ? (
+    <FaBookmark size={18} /> // Filled Bookmark
+  ) : (
+    <FaRegBookmark size={18} /> // Outlined Bookmark
+  )}
+</button>
+
               </div>
             ))
           ) : (
